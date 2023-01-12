@@ -9,11 +9,13 @@ Ficha transformaFicha(char*);
 
 void fichasIniciales(Jugador * jugador)
 {
-    // fichasIniciales: char -> int *
-    // La funcion recibe el color inicial y devuelve un espacio de memoria dinamica con 
-    // las fichas iniciales, dependiendo si el color inicial es 'B' o 'N'.
+    // fichasIniciales :: Jugador* -> None
+    // La funcion recibe un jugador y añade a sus fichas jugadas las fichas iniciales, dependiendo 
+    // de su color.
 
-    if (jugador->color== 'B')
+    jugador->fichasJugadas = malloc(sizeof(Ficha) * 2);
+
+    if (jugador->color == 'B')
     {
         Ficha ficha1 = {4, 4};
         Ficha ficha2 = {5, 5};
@@ -32,7 +34,7 @@ void fichasIniciales(Jugador * jugador)
 
 }
 
-int charInt( char caracter) 
+int charInt(char caracter) 
 {
     // charInt: char -> int
     // La funcion toma un caracter y a su valor ASCII le resta el valor ASCII de '0'. Dicho
@@ -44,25 +46,33 @@ int charInt( char caracter)
 
 Ficha transformaFicha(char * jugada)
 {
-    // transformaFicha: string -> int
+    // transformaFicha: string -> Ficha
     // La funcion recibe un string y chequea si los formatos son correctos: El largo de la 
-    // cadena es 3 (2 caracteres + espacio), si el 2do caracter es un caracter entre 1 y 8,
-    // si el primer caracter esta entre 'A' y 'H'. Si es correcto todo, devuelve la ficha 
-    // transformada.
+    // cadena es 3 (2 caracteres + espacio), el segundo caracter es un numero entre 1 y 8 y
+    // que el primer caracter es una letra entre A y H. Si la jugada no cumple con lo previamente 
+    // dicho, devuelve la Ficha {-1, -1}, si es un salto de turno, devuelve la ficha {0, 0}, y si 
+    // es correcto lo ingresado, devuelve la ficha transformada.
 
     int ficha;
     char columnasLetra[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
     if (strlen(jugada) != 3) // Chequea tamaño de la jugada.
     {
-        printf("La jugada debe tener un tamanio de 2 caracteres.");
+        printf("\n!!! La jugada debe tener un tamanio de 2 caracteres. !!!\n");
         Ficha fallo = {-1, -1};
         return fallo;
     }
 
+    if (jugada[0] == '\0')
+    {
+        Ficha saltoDeTurno = {0, 0};
+        return saltoDeTurno;
+    }
+    
+
     if (jugada[1] == '0' || jugada[1] == '9' || isalpha(jugada[1])) // Chequea segundo caracter.
     {
-        printf("La jugada esta fuera del rango.");
+        printf("\n!!! La jugada esta fuera del rango. !!!\n");
         Ficha fallo = {-1, -1};
         return fallo;
     }
@@ -71,12 +81,12 @@ Ficha transformaFicha(char * jugada)
     {
         if (jugada[0] == columnasLetra[i])
         {
-            Ficha ficha = {i, charInt(jugada[1])};
+            Ficha ficha = {i+1, charInt(jugada[1])};
             return ficha;
         }
     }
 
-    printf("El formato de la jugada es incorrecto.");
+    printf("\n !!! El formato de la jugada es incorrecto. !!!\n");
     
     Ficha fallo = {-1, -1};
     return fallo;

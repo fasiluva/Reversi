@@ -4,7 +4,6 @@
 #include <string.h>
 #include "archivos.c"
 #include "jugadores.c"
-#include "fichas.c"
 #include "jugadas.c"
 
 int main (int argc , char * argv [])
@@ -76,9 +75,9 @@ int main (int argc , char * argv [])
 
         // =========================================================================== INICIO DEL JUEGO
 
-        char turnoColor = linea[0]; 
+        char turno = linea[0]; 
 
-        printf("Inicia el color: %c\n\n", turnoColor);
+        printf("Inicia el color: %c\n\n", turno);
 
         int cantJugadasPosibles;
 
@@ -88,14 +87,40 @@ int main (int argc , char * argv [])
         printf("============================ INICIO DEL JUEGO =================================\n");
 
         Ficha * jugadasPosibles; 
-        actualizarJugadasPosibles(turnoColor, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles); 
+        jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles); 
         
-        for (int i = 0; i < 10; i++)
+        /* for (int i = 0; i < cantJugadasPosibles; i++)
         {
-            printf("\nJugada posible %i: %i\n", i+1, jugadasPosibles[i]); 
+            printf("\nJugada posible %i: %i %i\n", i+1, jugadasPosibles[i].x, jugadasPosibles[i].y); 
+        } */
+
+        fgets(linea, 25, archivo); // PRIMERA JUGADA
+        int cantFichasJugadas = 2;
+
+        while (linea != "" && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, jugadasPosibles, cantJugadasPosibles, turno) == 0)
+        {
+
+            if (transformaFicha(linea).x != 0) // Si la jugada no es un salto de turno.
+            {
+                Ficha jugada = transformaFicha(linea);
+                modificaFichas(jugada, jugador1, jugador2, turno);
+                cantFichasJugadas++;
+            }
+            
+            turno = cambiaTurno(turno);
+
+            jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles);
+
+            fgets(linea, 25, archivo);
+
         }
 
         fclose(archivo);
+        
+        mensajeFinal(jugador1, jugador2, cantFichasJugadas);
+
+        muestraTablero(jugador1, jugador2);
+
     }
 
     else printf("El programa no puede iniciar porque debe ingresar UN archivo de jugadas.");

@@ -18,15 +18,6 @@ typedef struct
     Ficha * fichasJugadas;
 } Jugador;
 
-/*
-typedef struct 
-{
-    char color;
-    int cantFichas;
-    int * fichasJugadas;
-} Jugador;
-*/
-
 int colorValido (char color)
 {
     // colorValido: char -> int
