@@ -89,8 +89,8 @@ int main(int argc, char const *argv[])
     assert(generaHorizontal(ficha1, jugador1, jugador2, jugador2->color) == 0);
     assert(generaHorizontal(ficha1, jugador1, jugador2, jugador1->color) == 1);
 
-    assert(generaDiagonalDer(ficha7, jugador1, jugador2, jugador2->color) == 1);
-    assert(generaDiagonalIzq(ficha2, jugador1, jugador2, jugador1->color) == 1);
+    assert(generaDiagonalSup(ficha7, jugador1, jugador2, jugador2->color) == 1);
+    assert(generaDiagonalInf(ficha2, jugador1, jugador2, jugador1->color) == 1);
     //! FICHAS DIAGONALES: PROBAR CON MAS FICHAS QUE SOLO LAS INICIALES.
 
     assert(generaCambios(jugador2->color, ficha5, jugador1, jugador2) == 0);

@@ -1,6 +1,6 @@
-Martin Sferco,n
-Valentin Sosa,b
-n
+Martin Sferco,N
+Valentin Sosa,B
+N
 D3
 C3
 B3
@@ -8,7 +8,7 @@ D6
 D7
 C5
 C6
-e3
+E3
 F5
 A3
 C4

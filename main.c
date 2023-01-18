@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "tablero.c"
 #include "archivos.c"
-#include "jugadores.c"
-#include "jugadas.c"
 
 int main (int argc , char * argv [])
 {
@@ -87,23 +86,20 @@ int main (int argc , char * argv [])
         printf("============================ INICIO DEL JUEGO =================================\n");
 
         Ficha * jugadasPosibles; 
-        jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles); 
-        
-        /* for (int i = 0; i < cantJugadasPosibles; i++)
-        {
-            printf("\nJugada posible %i: %i %i\n", i+1, jugadasPosibles[i].x, jugadasPosibles[i].y); 
-        } */
+        jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles);         
 
         fgets(linea, 25, archivo); // PRIMERA JUGADA
-        int cantFichasJugadas = 2;
+        int cantFichasJugadas = 4;
+        
+        char salida = 'F';
 
-        while (linea != "" && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, jugadasPosibles, cantJugadasPosibles, turno) == 0)
+        while (salida != 'T' && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, jugadasPosibles, cantJugadasPosibles, turno) == 0)
         {
 
             if (transformaFicha(linea).x != 0) // Si la jugada no es un salto de turno.
             {
                 Ficha jugada = transformaFicha(linea);
-                modificaFichas(jugada, jugador1, jugador2, turno);
+                modificaFichas(jugada, jugador1, jugador2, turno); 
                 cantFichasJugadas++;
             }
             
@@ -111,13 +107,13 @@ int main (int argc , char * argv [])
 
             jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles);
 
-            fgets(linea, 25, archivo);
+            if (fgets(linea, 25, archivo) == NULL) salida = 'T';
 
         }
 
         fclose(archivo);
         
-        mensajeFinal(jugador1, jugador2, cantFichasJugadas);
+        mensajeFinal(jugador1, jugador2, cantFichasJugadas, turno);
 
         muestraTablero(jugador1, jugador2);
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "jugadores.c"
 
 void fichasIniciales(Jugador *);
 int charInt(char);
@@ -56,25 +57,22 @@ Ficha transformaFicha(char * jugada)
     int ficha;
     char columnasLetra[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
-    if (strlen(jugada) != 3) // Chequea tamaño de la jugada.
-    {
-        printf("\n!!! La jugada debe tener un tamanio de 2 caracteres. !!!\n");
-        Ficha fallo = {-1, -1};
-        return fallo;
-    }
-
-    if (jugada[0] == '\0')
+    if (strlen(jugada) == 1)
     {
         Ficha saltoDeTurno = {0, 0};
         return saltoDeTurno;
     }
-    
 
-    if (jugada[1] == '0' || jugada[1] == '9' || isalpha(jugada[1])) // Chequea segundo caracter.
+    else if (strlen(jugada) != 3) // Chequea tamaño de la jugada.
     {
-        printf("\n!!! La jugada esta fuera del rango. !!!\n");
-        Ficha fallo = {-1, -1};
-        return fallo;
+        Ficha falloFormato = {-1, -1};
+        return falloFormato;
+    }
+
+    if (jugada[1] == '0' || jugada[1] == '9' || isalpha(jugada[1]) || !isalpha(jugada[0])) // Chequea segundo caracter.
+    {
+        Ficha falloRango = {-2, -2};
+        return falloRango;
     }
 
     for (int i = 0; i < 8; i++)
@@ -85,10 +83,8 @@ Ficha transformaFicha(char * jugada)
             return ficha;
         }
     }
-
-    printf("\n !!! El formato de la jugada es incorrecto. !!!\n");
     
-    Ficha fallo = {-1, -1};
-    return fallo;
+    Ficha falloRango = {-2, -2};
+    return falloRango;
 }
 
