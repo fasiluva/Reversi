@@ -85,15 +85,14 @@ int main (int argc , char * argv [])
 
         printf("============================ INICIO DEL JUEGO =================================\n");
 
-        Ficha * jugadasPosibles; 
-        jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles);         
+        cantJugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2);         
 
         fgets(linea, 25, archivo); // PRIMERA JUGADA
         int cantFichasJugadas = 4;
         
         char salida = 'F';
 
-        while (salida != 'T' && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, jugadasPosibles, cantJugadasPosibles, turno) == 0)
+        while (salida != 'T' && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, cantJugadasPosibles, turno) == 0)
         {
 
             if (transformaFicha(linea).x != 0) // Si la jugada no es un salto de turno.
@@ -105,9 +104,9 @@ int main (int argc , char * argv [])
             
             turno = cambiaTurno(turno);
 
-            jugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2, &cantJugadasPosibles, jugadasPosibles);
+            cantJugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2);    
 
-            if (fgets(linea, 25, archivo) == NULL) salida = 'T';
+            if (fgets(linea, 25, archivo) == NULL) salida = 'T'; // Salta a la siguiente linea a la vez que ve si es el fin del archivo.
 
         }
 
@@ -116,6 +115,11 @@ int main (int argc , char * argv [])
         mensajeFinal(jugador1, jugador2, cantFichasJugadas, turno);
 
         muestraTablero(jugador1, jugador2);
+
+        free(jugador1->fichasJugadas);
+        free(jugador2->fichasJugadas);
+        free(jugador1);
+        free(jugador2);
 
     }
 

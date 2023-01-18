@@ -5,10 +5,9 @@ int generaHorizontal(Ficha, Jugador *, Jugador *, char);
 int generaVertical(Ficha, Jugador *, Jugador *, char);
 int generaDiagonalSup(Ficha, Jugador *, Jugador *, char);
 int generaDiagonalInf(Ficha, Jugador *, Jugador *, char);
-Ficha * actualizarJugadasPosibles(char, Jugador *, Jugador *, int *, Ficha *);
-Ficha * vecinasColorOpuestoValidas(char, Jugador *, Jugador *, int *, Ficha *);
+int actualizarJugadasPosibles(char, Jugador *, Jugador *);
 int generaCambios(char, Ficha, Jugador *, Jugador *);
-int jugadaCorrecta (char *, Jugador *, Jugador *, Ficha *, int, char);
+int jugadaCorrecta (char *, Jugador *, Jugador *, int, char);
 void modificaFichas (Ficha, Jugador *, Jugador *, char);
 void modificaHorizontal(Ficha, Jugador *, Jugador *);
 void modificaVertical(Ficha, Jugador *, Jugador *);
@@ -439,7 +438,7 @@ void modificaFichas(Ficha jugada, Jugador * jugador1, Jugador * jugador2, char t
 
 }
 
-int jugadaCorrecta(char * jugada, Jugador * jugador1, Jugador * jugador2, Ficha * jugadasPosibles, int cantJugadasPosibles, char turno)
+int jugadaCorrecta(char * jugada, Jugador * jugador1, Jugador * jugador2, int cantJugadasPosibles, char turno)
 {
 
     // jugadaCorrecta :: char *, Jugador *, Jugador *, Ficha *, int, char -> int
@@ -492,14 +491,66 @@ int jugadaCorrecta(char * jugada, Jugador * jugador1, Jugador * jugador2, Ficha 
     return 0;
 }
 
-Ficha * actualizarJugadasPosibles(char turno, Jugador * jugador1, Jugador * jugador2, int * cantJugadasPosibles, Ficha * jugadasPosibles)
+int actualizarJugadasPosibles(char turno, Jugador * jugador1, Jugador * jugador2)
 {
-    // actualizarJugadasPosibles :: char, Jugador *, Jugador *, Ficha *, int *, Ficha * -> Ficha *
-    // La funcion devuelve las jugadas posibles que puede realizar el jugador con el 
-    // color que indique el turno.
-    
-    jugadasPosibles = vecinasColorOpuestoValidas(turno, jugador1, jugador2, cantJugadasPosibles, jugadasPosibles);
-    
+    // actualizarJugadasPosibles :: char, Jugador *, Jugador * -> int
+    // La funcion recibe el turno y los jugadores y devuelve 0 si no hay jugadas posibles para el jugador de turno,
+    // sino devuelve 1
+
+    if (jugador1->color == turno) // Si es el turno del color del jugador 1, analiza todas las fichas tangentes del color contrario
+    { 
+
+        for (int ficha = 0; ficha < jugador2->cantFichas; ficha++)
+        {
+            
+            for (int columna = jugador2->fichasJugadas[ficha].x - 1; columna <= jugador2->fichasJugadas[ficha].x + 1; columna++)
+            {
+            
+                for (int fila = jugador2->fichasJugadas[ficha].y - 1 ; fila <= jugador2->fichasJugadas[ficha].y + 1; fila++)
+                {
+
+                    Ficha fichaTangente = {columna, fila};
+
+                    if ((1 <= columna <= 8) && (1 <= fila <= 8) && (ocupadaJugador(fichaTangente, jugador1) == 0) && (ocupadaJugador(fichaTangente, jugador2) == 0) && (generaCambios(turno, fichaTangente, jugador1, jugador2) == 0))
+                    {
+                        return 1; // Hay al menos una jugada posible
+                    }
+            
+                }
+            
+            }
+        
+        }
+
+    }
+
+    else
+    {
+
+        for (int ficha = 0; ficha < jugador1->cantFichas; ficha++)
+        {
+            for (int columna = jugador1->fichasJugadas[ficha].x - 1; columna <= jugador1->fichasJugadas[ficha].x + 1; columna++)
+            {
+                for (int fila = jugador1->fichasJugadas[ficha].y - 1 ; fila <= jugador1->fichasJugadas[ficha].y + 1; fila++)
+                {
+
+                    Ficha fichaTangente = {columna, fila};
+
+                    if ((1 <= columna <= 8) && (1 <= fila <= 8) && (ocupadaJugador(fichaTangente, jugador1) == 0) && (ocupadaJugador(fichaTangente, jugador2) == 0) && (generaCambios(turno, fichaTangente, jugador1, jugador2) == 0))
+                    {
+                        return 1; // Hay al menos una jugada posible
+                    }
+        
+                }
+        
+            }
+        
+        }
+        
+    }
+
+    return 0; // No hay jugadas posibles
+
 }
 
 int generaVertical(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, char turno)
@@ -842,101 +893,5 @@ int generaCambios(char turno, Ficha fichaTangente, Jugador * jugador1, Jugador *
     
     return 1;
 
-}
-
-int repetida(Ficha fichaTangente, Ficha * jugadasPosibles, int cantFichasTangentes)
-{
-    // repetida :: Ficha, Ficha *, int -> int
-    // Recibe una ficha, las fichas posibles y su cantidad, y devuelve 1 si la ficha ya esta 
-    // presente en las fichas posibles, sino devuelve 0.
-
-    for (int i = 0; i < cantFichasTangentes; i++) if (jugadasPosibles[i].x == fichaTangente.x && jugadasPosibles[i].y == fichaTangente.y) return 1;   
-    return 0;
-}
-
-Ficha * vecinasColorOpuestoValidas(char turno, Jugador * jugador1, Jugador * jugador2, int * cantJugadasPosibles, Ficha * jugadasPosibles)
-{
-    // vecinasColorOpuestoValidas :: char, Jugador*, Jugador*, int*, Ficha* -> Ficha*
-    // La funcion recibe el turno, los jugadores, la cantidad de jugadas posibles y las jugadas posibles, y devuelve
-    // un espacio de memoria con todas las fichas que se pueden jugar en el turno.
-
-    int cantFichasVecinas = 0;
-
-    if (jugador1->color == turno) // Si es el turno del color del jugador 1, analiza todas las fichas tangentes del color contrario
-    { 
-        jugadasPosibles = malloc(sizeof(Ficha) * (jugador2->cantFichas * 8));
-        // Nota: cada ficha tiene 8 tangentes, entonces el maximo del malloc debe ser 8 x cantFichas.
-
-        for (int ficha = 0; ficha < jugador2->cantFichas; ficha++)
-        {
-            
-            for (int columna = jugador2->fichasJugadas[ficha].x - 1; columna <= jugador2->fichasJugadas[ficha].x + 1; columna++)
-            {
-            
-                for (int fila = jugador2->fichasJugadas[ficha].y - 1 ; fila <= jugador2->fichasJugadas[ficha].y + 1; fila++)
-                {
-
-                    Ficha fichaTangente = {columna, fila};
-
-                    if ((1 <= columna <= 8) && (1 <= fila <= 8) && (ocupadaJugador(fichaTangente, jugador1) == 0) && (ocupadaJugador(fichaTangente, jugador2) == 0) && (repetida(fichaTangente, jugadasPosibles, cantFichasVecinas) == 0) && (generaCambios(turno, fichaTangente, jugador1, jugador2) == 0))
-                    {
-                        jugadasPosibles[cantFichasVecinas] = fichaTangente;
-                        cantFichasVecinas++;
-                    }
-            
-                }
-            
-            }
-        
-        }
-
-        *cantJugadasPosibles = cantFichasVecinas;
-        jugadasPosibles = realloc(jugadasPosibles, sizeof(Ficha) * cantFichasVecinas);    
-        // Nota: Si el malloc no llegase a ocupar todos sus espacios, lo achica con la cantidad de fichas tangentes obtenidas.
-        // Si no hay fichas jugables, el apuntador devuelve NULL, ya que cantFichasVecinas seria 0.
-    }
-
-    else
-    {
-
-        jugadasPosibles = malloc(sizeof(Ficha) * (jugador1->cantFichas * 8));
-        // Nota: cada ficha tiene 8 tangentes, entonces el maximo del malloc debe ser 8 x cantFichas.
-
-        for (int ficha = 0; ficha < jugador1->cantFichas; ficha++)
-        {
-            for (int columna = jugador1->fichasJugadas[ficha].x - 1; columna <= jugador1->fichasJugadas[ficha].x + 1; columna++)
-            {
-                for (int fila = jugador1->fichasJugadas[ficha].y - 1 ; fila <= jugador1->fichasJugadas[ficha].y + 1; fila++)
-                {
-                    //printf("\nColumna: %d \nFila: %d", columna, fila);
-                    //printf("Cantidad de jugadas del jugador 1: %d", jugador1->cantFichas);
-                    Ficha fichaTangente = {columna, fila};
-
-                    /* printf("\nocupada jugador 1: %d\n", ocupadaJugador(fichaTangente, jugador1));
-                    printf("ocupada jugador 2: %d\n", ocupadaJugador(fichaTangente, jugador2));
-                    printf("repetida: %d\n", repetida(fichaTangente, jugadasPosibles, cantFichasVecinas));
-                    printf("genera cambios diagonal derecha: %d\n", generaDiagonalSup(fichaTangente, jugador1, jugador2, turno));
-                    printf("genera cambios diagonal izquierda: %d\n", generaDiagonalInf(fichaTangente, jugador1, jugador2, turno));
-                    printf("genera cambios horizontal: %d\n", generaHorizontal(fichaTangente, jugador1, jugador2, turno));
-                    printf("genera cambios vertical: %d\n", generaVertical(fichaTangente, jugador1, jugador2, turno)); */
-
-                    if ((1 <= columna <= 8) && (1 <= fila <= 8) && (ocupadaJugador(fichaTangente, jugador1) == 0) && (ocupadaJugador(fichaTangente, jugador2) == 0) && (repetida(fichaTangente, jugadasPosibles, cantFichasVecinas) == 0) && (generaCambios(turno, fichaTangente, jugador1, jugador2) == 0))
-                    {
-                        //printf("\n===LA FICHA ES VALIDA===\n");
-                        jugadasPosibles[cantFichasVecinas] = fichaTangente;
-                        cantFichasVecinas++;
-                    }
-                    else 
-                    {
-                        //printf("\n===LA FICHA ES INVALIDA===\n");
-                    }
-                }
-            }
-        }
-        *cantJugadasPosibles = cantFichasVecinas;
-        jugadasPosibles = realloc(jugadasPosibles, sizeof(Ficha) * cantFichasVecinas);    
-        // Nota: Si el malloc no llegase a ocupar todos sus espacios, lo achica con la cantidad de fichas tangentes obtenidas.
-        // Si no hay fichas jugables, el apuntador devuelve NULL, ya que cantFichasVecinas seria 0.
-    }
 }
 
