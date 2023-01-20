@@ -27,7 +27,7 @@ def main(nombreArchivo, colorJugador, dificultad):
 
         if turno == colorJugador:
 
-            cantJugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina)
+            cantJugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina, colorJugador)
 
             muestraTablero(fichasJugador, fichasMaquina)
 

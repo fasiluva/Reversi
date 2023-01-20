@@ -3,13 +3,50 @@ def actualizaJugadasPosiblesJugador (fichasJugador, fichasMaquina):
 
     for ficha in fichasMaquina:
 
-        contadorColumna = ficha[0]
-        contadorFila = ficha[1] 
+        for columna in range(ficha[0] - 1, ficha[0] + 2):
 
-        while contadorColumna - 1 < contadorColumna + 1:
-
+            if columna < 1: 
+                columna += 1
             
+            for fila in range(ficha[1] - 1, ficha[1] + 2):
+
+                if fila < 1:
+                    fila += 1
+                
+                if fichaValidaJugador((columna, fila), fichasJugador, fichasMaquina):
+                    return True
+                
+    return False
+
+
+def fichaValidaJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    if not ocupada(fichaVerifica, fichasJugador) and not ocupada(fichaVerifica, fichasMaquina) and generaCambiosJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+        return True
     
+    return False
+
+
+def ocupada(fichaVerifica, jugador):
+
+    return fichaVerifica in jugador
+    
+
+def generaCambiosJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    if generaVerticalJugador(fichaVerifica, fichasJugador, fichasMaquina) or generaHorizontalJugador(fichaVerifica, fichasJugador, fichasMaquina) or generaDiagonalSupJugador(fichaVerifica, fichasJugador, fichasMaquina) or generaDiagonalInfJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+        return True
+    
+    return False
+
+
+def generaVerticalJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    
+
+
 
 def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJugadas):
 
