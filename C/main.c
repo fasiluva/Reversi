@@ -11,6 +11,7 @@ int main (int argc , char * argv [])
     if (argc == 2) {
         
         // =========================================================================== CONDICIONES PRELIMINARES DE ARCHIVO
+        
         FILE * archivo = fopen(argv[1], "r"); // Intenta abrir el archivo ingresado como parametro.
 
         while (archivo == NULL) {

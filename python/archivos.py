@@ -1,31 +1,42 @@
-def ingresaArchivo(nombreArchivo):
-    """
-    ingresaArchivo :: str -> bool
 
-    Chequea que el archivo existe. Devuelve true si existe, false si no.
-    """
-    
-    archivoEnExtension = '../' + nombreArchivo + '.txt'
-    
-    if not chequeaArchivo(archivoEnExtension): # Si el archivo no existe, devuelve False.
-        print('\nEl archivo no ha sido encontrado. ')
+def verificaArgumentos(nombreArchivo, color, dificultad):
+
+    if archivoExiste(nombreArchivo) and dificultadCorrecta(dificultad) and colorCorrecto(color):
+        return True
+    else:
+        return False
+
+
+def colorCorrecto(color):
+
+    if color != 'N' and color != 'B':
+
+        mensajeError("color")
         return False
     
     return True
 
-def chequeaArchivo(archivoEnExtension):
-    """
-    chequeaArchivo :: str -> bool
 
-    Chequea que el archivo exista en el directorio. Si existe, devuelve true, sino devuelve false.
-    """
+def dificultadCorrecta(dificultad):
 
-    try: 
-        archivoExiste = open(archivoEnExtension)
-        archivoExiste.close()
+    if dificultad != '0' and dificultad != '1':
 
-    except:
+        mensajeError("dificultad")
         return False
-        
-    else: 
+    
+    return True
+
+def archivoExiste(nombreArchivo):
+
+    try:
+
+        open(nombreArchivo, 'r')
+    
+    except:
+
+        mensajeError("archivo")
+        return False
+    
+    else:
+
         return True

@@ -1,67 +1,39 @@
-from fichas import normalizarLectura
 
-def verificaDatos(archivo):
-    """
-    verificaDatos :: file -> bool
+def colorContrario(color):
 
-    Recibe el archivo y devuelve true si los colores de ambos no son los mismos y si son B O N, 
-    y si el color de inicio es B o N. Sino, devuelve false, indicando que el juego no puede iniciar.
-    """
+    return 'B' if color == 'N' else 'N'
 
-    linea = normalizarLectura(archivo.readline()) # linea 1 (jugador 1)
+def datosArchivo(nombreArchivo, colorJugador, colorMaquina):
 
-    jugador1 = jugador(linea)
- 
-    linea = normalizarLectura(archivo.readline()) # linea 2 (jugador 2)
+    archivo = open(nombreArchivo, 'r')
 
-    jugador2 = jugador(linea)
-    
-    linea = normalizarLectura(archivo.readline()) # linea 3 (color que inicia)
-   
-    if not coloresCorrectos(jugador1, jugador2): 
-        return False
+    fichasJugador = set()
+    fichasMaquina = set()
 
-    if linea != 'N' and linea != 'B': 
-        print('El color que inicia es invalido.')
-        return False
-    
-    return True 
+    fila = 1
 
+    while fila <= 8:
 
+        linea = archivo.readline()
 
-def jugador(linea):
-    """
-    jugador :: str -> (string, string)
+        columna = 1
 
-    Dado un string, lo divide y devuelve una tupla (nombre, color).
-    """
+        while columna <= 8:
 
-    nombre,color = linea.split(',')
+            if linea[columna] == colorJugador:
 
-    return nombre,color    
+                fichasJugador.update({(columna, fila)})
+            
+            elif linea[columna] == colorMaquina:
 
+                fichasMaquina.update({(columna, fila)})
+            
+            columna += 1
+        
+        fila += 1
 
+    colorInicia = archivo.readline()
 
-def coloresCorrectos(jugador1, jugador2):
-    """
-    coloresCorrectos :: (str, str), (str, str) -> bool
+    archivo.close()
 
-    La función toma dos jugadores, y si los colores son diferentes, y son N o B, 
-    entonces devuelve True, que significa que los colores son validos, sino devuelve False.
-    """
-    
-    # Verificamos colores del primer jugador
-    if jugador1[1] != 'N' and jugador1[1] != 'B':
-        print("El color del primer jugador no es válido.")
-        return False
-
-    # Verificamos colores del segundo jugador
-    if jugador2[1] != 'N' and jugador2[1] != 'B':
-        print("El color del segundo jugador no es válido.")
-        return False
-    
-    if jugador1[1] == jugador2[1]:
-        print("Los colores de los jugadores son iguales.")
-        return False
-
-    return True
+    return fichasJugador,fichasMaquina,colorInicia

@@ -61,7 +61,7 @@ void escribeTablero(Jugador * jugador1, Jugador * jugador2, char turno)
     // el tablero que quedo, siendo X un espacio vacio y B o N el color del jugador correspondiente
     // donde haya una ficha. La ultima linea es el turno que continuaria en la partida.
 
-    FILE * archivo = fopen("juegoContinuacion.txt", "w");
+    FILE * archivo = fopen("../archivosGenerados/juegoContinuacion.txt", "w");
 
     for (int fila = 1; fila <= 8; fila++)
     {
