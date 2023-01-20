@@ -1,9 +1,14 @@
 
-def actualizaJugadasPosibles(fichasJugador, fichasMaquina):
+def actualizaJugadasPosiblesJugador (fichasJugador, fichasMaquina):
 
-    contadorColumna = 1
-    contadorFila = 1
+    for ficha in fichasMaquina:
 
+        contadorColumna = ficha[0]
+        contadorFila = ficha[1] 
+
+        while contadorColumna - 1 < contadorColumna + 1:
+
+            
     
 
 def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJugadas):
