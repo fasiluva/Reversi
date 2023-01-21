@@ -1,5 +1,8 @@
 
-def actualizaJugadasPosiblesJugador (fichasJugador, fichasMaquina):
+from mensajes import *
+from fichas import *
+
+def actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina):
 
     for ficha in fichasMaquina:
 
@@ -19,6 +22,52 @@ def actualizaJugadasPosiblesJugador (fichasJugador, fichasMaquina):
     return False
 
 
+def actualizaJugadasPosiblesMaquina(fichasJugador, fichasMaquina):
+
+    fichasPosibles = set()
+
+    for ficha in fichasJugador:
+
+        for columna in range(ficha[0] - 1, ficha[0] + 2):
+
+            if columna < 1: 
+                columna += 1
+            
+            for fila in range(ficha[1] - 1, ficha[1] + 2):
+
+                if fila < 1:
+                    fila += 1
+                
+                if fichaValidaMaquina((columna, fila), fichasJugador, fichasMaquina):
+                    
+                    fichasPosibles.add(ficha)
+                
+    return fichasPosibles
+
+
+def fichaValidaMaquina(fichaVerifica, fichasJugador, fichasMaquina):
+
+    if not ocupada(fichaVerifica, fichasJugador) and not ocupada(fichaVerifica, fichasMaquina) and generaCambiosMaquina(fichaVerifica, fichasJugador, fichasMaquina):
+
+        return True
+    
+    return False
+
+
+def generaCambiosMaquina(fichaVerifica, fichasJugador, fichasMaquina):
+
+    if generaVerticalMaquina(fichaVerifica, fichasJugador, fichasMaquina) or generaHorizontalMaquina(fichaVerifica, fichasJugador, fichasMaquina) or generaDiagonalSupMaquina(fichaVerifica, fichasJugador, fichasMaquina) or generaDiagonalInfMaquina(fichaVerifica, fichasJugador, fichasMaquina):
+
+        return True
+    
+    return False
+
+
+def generaVerticalMaquina(fichaVerifica, fichasJugador, fichasMaquina):
+
+    pass
+
+
 def fichaValidaJugador(fichaVerifica, fichasJugador, fichasMaquina):
 
     if not ocupada(fichaVerifica, fichasJugador) and not ocupada(fichaVerifica, fichasMaquina) and generaCambiosJugador(fichaVerifica, fichasJugador, fichasMaquina):
@@ -29,8 +78,8 @@ def fichaValidaJugador(fichaVerifica, fichasJugador, fichasMaquina):
 
 
 def ocupada(fichaVerifica, jugador):
-
-    return fichaVerifica in jugador
+    
+    return (fichaVerifica in jugador)
     
 
 def generaCambiosJugador(fichaVerifica, fichasJugador, fichasMaquina):
@@ -42,15 +91,123 @@ def generaCambiosJugador(fichaVerifica, fichasJugador, fichasMaquina):
     return False
 
 
-def generaVerticalJugador(fichaVerifica, fichasJugador, fichasMaquina):
+def generaDiagonalInfJugador(fichaVerifica, fichasJugador, fichasMaquina):
 
+    contadorColumna = fichaVerifica[0] + 1
+    contadorFila = fichaVerifica[1] + 1
+
+    while contadorColumna <= 8 and contadorFila <= 8 and (contadorColumna, contadorFila) in fichasMaquina:
+
+        if ocupada((contadorColumna + 1, contadorFila + 1), fichasJugador):
+
+            return True
+        
+        contadorColumna += 1
+        contadorFila += 1
     
 
+    contadorColumna = fichaVerifica[0] - 1
+    contadorFila = fichaVerifica[1] - 1
+
+    while contadorColumna >= 1 and contadorFila >= 1 and (contadorColumna, contadorFila) in fichasMaquina:
+
+        if ocupada((contadorColumna - 1, contadorFila - 1), fichasJugador):
+
+            return True
+        
+        contadorColumna -= 1
+        contadorFila -= 1
+
+
+    return False
+
+
+def generaDiagonalSupJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    contadorColumna = fichaVerifica[0] + 1
+    contadorFila = fichaVerifica[1] - 1
+
+    while contadorColumna <= 8 and contadorFila >= 1 and (contadorColumna, contadorFila) in fichasMaquina:
+
+        if ocupada((contadorColumna + 1, contadorFila - 1), fichasJugador):
+
+            return True
+        
+        contadorColumna += 1
+        contadorFila -= 1
+    
+
+    contadorColumna = fichaVerifica[0] - 1
+    contadorFila = fichaVerifica[1] + 1
+
+    while contadorColumna >= 1 and contadorFila <= 8 and (contadorColumna, contadorFila) in fichasMaquina:
+
+        if ocupada((contadorColumna - 1, contadorFila + 1), fichasJugador):
+
+            return True
+        
+        contadorColumna -= 1
+        contadorFila += 1
+
+
+    return False
+
+
+def generaVerticalJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    contadorFila = fichaVerifica[1] - 1
+
+    while contadorFila >= 1 and (fichaVerifica[0], contadorFila) in fichasMaquina:
+
+        if ocupada((fichaVerifica[0], contadorFila - 1), fichasJugador):
+
+            return True
+        
+        contadorFila -= 1
+
+
+    contadorFila = fichaVerifica[1] + 1
+
+    while contadorFila <= 8 and (fichaVerifica[0], contadorFila) in fichasMaquina:
+
+        if ocupada((fichaVerifica[0], contadorFila + 1), fichasJugador):
+
+            return True
+        
+        contadorFila += 1
+    
+    return False
+
+
+def generaHorizontalJugador(fichaVerifica, fichasJugador, fichasMaquina):
+
+    contadorColumna = fichaVerifica[0] - 1
+
+    while contadorColumna >= 1 and (contadorColumna, fichaVerifica[1]) in fichasMaquina:
+
+        if ocupada((contadorColumna - 1, fichaVerifica[1]), fichasJugador):
+
+            return True
+        
+        contadorColumna -= 1
+
+
+    contadorColumna = fichaVerifica[0] + 1
+
+    while contadorColumna <= 8 and (contadorColumna, fichaVerifica[1]) in fichasMaquina:
+
+        if ocupada((contadorColumna + 1, fichaVerifica[1]), fichasJugador):
+
+            return True
+        
+        contadorColumna += 1
+    
+    return False
 
 
 def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJugadas):
 
-    if ultimasJugadas[0] == ultimasJugadas[1]:
+    if ultimasJugadas[0] == ultimasJugadas[-1]:
         
         mensajeFinal("doble salteo")
         return False
@@ -72,7 +229,7 @@ def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJuga
         
     elif cantFichasJugador == 0:
 
-        print("EL jugador se quedo sin fichas.")
+        print("El jugador se quedo sin fichas.")
         mensajeFinal("maquina")
         return False
 
@@ -83,7 +240,6 @@ def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJuga
         return False
     
     return True
-
 
 
 def jugadaPosible(jugada, fichasJugador, fichasMaquina):
@@ -98,15 +254,185 @@ def jugadaPosible(jugada, fichasJugador, fichasMaquina):
         mensajeError("rango")
         return False
 
-    if not fichaOcupada(jugada, fichasJugador, fichasMaquina):
+    jugadaFicha = transformaAFicha(jugada)
+
+    if ocupada(jugadaFicha, fichasJugador) and ocupada(jugadaFicha, fichasMaquina):
 
         mensajeError("ocupada") 
         return False
 
-    if not generaCambios(jugada, fichasJugador, fichasMaquina):
+    if not generaCambiosJugador(jugadaFicha, fichasJugador, fichasMaquina):
 
         mensajeError("imposible")
         return False
 
     return True
     
+
+def actualizaFichasJugador(jugadaHecha, fichasJugador, fichasMaquina):
+
+    horizontal = modificaHorizontal(jugadaHecha, fichasJugador, fichasMaquina)
+    vertical = modificaVertical(jugadaHecha, fichasJugador, fichasMaquina)
+    diagonalSup = modificaDiagonalSup(jugadaHecha, fichasJugador, fichasMaquina)
+    diagonalInf = modificaDiagonalInf(jugadaHecha, fichasJugador, fichasMaquina)
+
+    for ficha in (horizontal | vertical | diagonalSup | diagonalInf):
+
+        fichasJugador.add(ficha)
+        fichasMaquina.discard(ficha)
+    
+    fichasJugador.add(jugadaHecha)
+
+    
+
+def modificaHorizontal(jugadaHecha, ganaFichas, pierdeFichas):
+
+    columna,fila = jugadaHecha
+
+    volteadasDerecha = set()
+    volteadasIzquierda = set()
+    
+    # Recorremos hacia la derecha
+    fichasOpuestas = []
+    indice = columna + 1
+
+    while indice <= 8 and (indice,fila) in pierdeFichas:    
+        
+        fichasOpuestas += [(indice,fila)]
+
+        if (indice + 1, fila) in ganaFichas:
+            volteadasDerecha.update(fichasOpuestas)
+
+        indice += 1
+
+    # Recorremos hacia la izquierda
+    fichasOpuestas = []
+    indice = columna - 1
+
+    while indice >= 1 and (indice,fila) in pierdeFichas:    
+
+        fichasOpuestas += [(indice,fila)]
+
+        if (indice - 1,fila) in ganaFichas:
+            volteadasIzquierda.update(fichasOpuestas)
+
+        indice -= 1
+        
+    return (volteadasDerecha | volteadasIzquierda) 
+
+
+def modificaVertical(jugadaHecha, ganaFichas, pierdeFichas):
+
+    columna,fila = jugadaHecha
+
+    volteadasArriba = set()
+    volteadasAbajo = set()
+    
+    # Recorremos hacia arriba
+    fichasOpuestas = []
+    indice = fila + 1
+
+    while indice <= 8 and (columna,indice) in pierdeFichas:    
+        
+        fichasOpuestas += [(columna,indice)]
+
+        if (columna,indice + 1) in ganaFichas:
+            volteadasArriba.update(fichasOpuestas)
+
+        indice += 1
+
+    # Recorremos hacia abajo
+    fichasOpuestas = []
+    indice = fila - 1
+
+    while indice >= 1 and (columna,indice) in pierdeFichas:    
+
+        fichasOpuestas += [(columna,indice)]
+
+        if (columna,indice - 1) in ganaFichas:
+            volteadasAbajo.update(fichasOpuestas)
+
+        indice -= 1
+
+    return (volteadasArriba | volteadasAbajo)
+
+
+def modificaDiagonalSup(jugadaHecha, ganaFichas, pierdeFichas):
+
+    columna,fila = jugadaHecha
+
+    volteadasMitad1 = set()
+    volteadasMitad2 = set()
+    
+    # Recorremos hacia una mitad
+    fichasOpuestas = []
+    indiceX = columna + 1
+    indiceY = fila - 1
+
+    while indiceX <= 8 and indiceY >= 1 and (indiceX,indiceY) in pierdeFichas:    
+        
+        fichasOpuestas += [(indiceX,indiceY)]
+
+        if (indiceX + 1,indiceY - 1) in ganaFichas:
+            volteadasMitad1.update(fichasOpuestas)
+
+        indiceX += 1
+        indiceY -= 1
+
+    # Recorremos hacia la otra mitad
+    fichasOpuestas = []
+    indiceX = columna - 1
+    indiceY = fila + 1
+
+    while indiceX >= 1 and indiceY <= 8 and (indiceX,indiceY) in pierdeFichas:    
+
+        fichasOpuestas += [(indiceX,indiceY)]
+
+        if (indiceX - 1,indiceY + 1) in ganaFichas:
+            volteadasMitad2.update(fichasOpuestas)
+        
+        indiceX -= 1
+        indiceY += 1
+
+    return (volteadasMitad1 | volteadasMitad2)
+
+
+def modificaDiagonalInf(jugadaHecha, ganaFichas, pierdeFichas):
+    
+    columna, fila = jugadaHecha
+
+    volteadasMitad1 = set()
+    volteadasMitad2 = set()
+    
+    # Recorremos hacia una mitad
+    fichasOpuestas = []
+    indiceX = columna + 1
+    indiceY = fila + 1
+
+    while indiceX <= 8 and indiceY <= 8 and (indiceX,indiceY) in pierdeFichas:    
+        
+        fichasOpuestas += [(indiceX,indiceY)]
+
+        if (indiceX + 1,indiceY + 1) in ganaFichas:
+            volteadasMitad1.update(fichasOpuestas)
+
+        indiceX += 1
+        indiceY += 1
+
+    # Recorremos hacia la otra mitad
+    fichasOpuestas = []
+    indiceX = columna - 1
+    indiceY = fila - 1
+
+    while indiceX >= 1 and indiceY >= 1 and (indiceX,indiceY) in pierdeFichas:    
+
+        fichasOpuestas += [(indiceX,indiceY)]
+
+        if (indiceX - 1,indiceY - 1) in ganaFichas:
+            volteadasMitad2.update(fichasOpuestas)
+
+        indiceX -= 1
+        indiceY -= 1
+
+    return (volteadasMitad1 | volteadasMitad2)
+

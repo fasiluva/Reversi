@@ -1,101 +1,60 @@
+
+from jugadores import *
 from time import sleep
 
-def mensajeProcesamientoArchivo(nombreArchivo):
-    """
-    mensajeProcesamientoArchivo :: str -> None
+def muestraTablero(fichasJugador, fichasMaquina, colorJugador):
 
-    Nos muestra un mensaje indicando que se está procesando el archivo.
-    """
+    print("\n----- Tablero -----\n")
 
-    print(f'\nEl archivo {nombreArchivo}.txt se está procesando ...')
-    sleep(1)
+    print("|    | A  | B  | C  | D  | E  | F  | G  | H  |",end = "")
+
+    for fila in range(1, 9):
+        
+        print("\n----------------------------------------------")
+
+        print(f'| {fila}  |',end = "")
+
+        for columna in range(1, 9):
+
+            if (columna, fila) in fichasJugador:
+
+                print(f' {colorJugador}  |', end = "")
+
+            elif (columna,fila) in fichasMaquina:
+                print(f' {colorContrario(colorJugador)}  |', end = "")
+             
+            else:
+                print('    |',end = "")
+
+    print("\n----------------------------------------------\n")
 
 
+def mensajeFinal(condicion):
 
-def errorJugada(jugada,error):
-    """
-    errorJugada :: str -> None
+    if condicion == "doble salteo":
 
-    Nos indica en que jugada se produjo un error y nos proporciona
-    información sobre el error.
-    """
-    if jugada == "\n":
-        print("Se encontro un error en una jugada.")
-    else:
-        print(f'Se encontro un error en la jugada {jugada[:-1]}.')
+        print("La partida finalizo porque ambos jugadores saltaron de turno. No hay mas jugadas posibles.")
+
+    else: 
+        print("\nHa ganado: ", condicion)
 
 
-    if error == "salteo":
-        print("Se salteó el turno cuando había jugadas posibles.")
+def mensajeError(error):
+
+    print("\n\n----------- ERROR -----------\n")
 
     if error == "formato":
-        print("La jugada no cumple con el formato estipulado.")
 
-    if error == "rango":
-        print("La jugada se sale fuera del rango del tablero.")
+        print("El formato de la jugada es incorrecto. Reintente: ")
 
-    if error == "ocupada":
-        print("La jugada cae sobre una casilla ya ocupada.")
+    elif error == "rango":
 
-    if error == "imposible":
-        print("La jugada no se encuentra dentro de las jugadas posibles.")
+        print("La jugada esta fuera de rango. Reintente: ")
 
-
-
-def informacionJugadores(jugador1,jugador2,turno):
-    """
-    informacionJugadores :: (str,str) (str,str) str -> None
-
-    Dada la información inicial, nos la muestra antes de comenzar la partida.
-    """
-
-    print('\nEl jugador 1 es', jugador1[0], 'con el color', jugador1[1].upper())
-    print('El jugador 2 es', jugador2[0], 'con el color', jugador2[1].upper())
-    print('Inicia el color', turno)  
-    print('________________________________________________')
-    sleep(1)
-
-
-
-def mensajeFinalJuego(jugadaFinal,fichasJugadas,turnoActual):
-    """
-    mensajeFinalJuego :: str dict(str:set((int,int))) str -> None
-
-    Dada las condiciones de la última jugada, las fichas jugadas, y el turno
-    nos muestra un mensaje adecuado relacionado a la terminación del juego.
-    """
+    elif error == "ocupada":
+        
+        print("La jugada esta en una casilla ya ocupada. Reintente: ")
     
-    cantidadFichasBlancas = len(fichasJugadas["B"])
-    cantidadFichasNegras = len(fichasJugadas["N"])
-    cantidadFichasJugadas = cantidadFichasBlancas + cantidadFichasNegras
-    
-    # Vemos si se colocaron todas las fichas
-    if cantidadFichasJugadas == 64:
-        print("La partida terminó satisfactoriamente.")
-
-        if cantidadFichasBlancas > cantidadFichasNegras:
-            print("Ganó el jugador de las fichas blancas!")
-
-        elif cantidadFichasBlancas < cantidadFichasNegras:
-            print("Ganó el jugador de las fichas negras!")
-
-        else:
-            print("Los dos jugadores empataron!")
-
     else:
-        # Vemos si alguno de los jugadores se quedaron sin fichas.
-        if cantidadFichasBlancas == 0:
-            print("El jugador blanco se quedó sin fichas.")
-            print("Gano el jugador de las fichas negras!")
 
-        elif cantidadFichasNegras == 0:
-            print("El jugador negro se quedó sin fichas.")
-            print("Gano el jugador de las fichas blancas!")
-
-        # Vemos si la partida termina a medias.
-        elif jugadaFinal == "":
-            print("La partida no se finalizó. No podemos determinar un ganador.")
-
-        # Vemos si la partida terminó debido a un error.
-        else:
-            print(f"El error fue cometido por el jugador de las fichas {turnoActual}.")
+        print("La jugada no genera cambios en el tablero. Reintente: ")

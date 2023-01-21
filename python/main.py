@@ -4,42 +4,48 @@ from jugadores import *
 from jugadas import *
 import sys
 
+
 def main(nombreArchivo, colorJugador, dificultad):
 
-    if not verificaArgumentos(nombreArchivo, colorJugador, dificultad):
+    nombreExtension = "../archivosGenerados/" + nombreArchivo + '.txt'
+
+    if not verificaArgumentos(nombreExtension, colorJugador, dificultad):
         
         return
     
     colorMaquina = colorContrario(colorJugador)
 
-    fichasJugador, fichasMaquina, turno = datosArchivo(nombreArchivo, colorJugador, colorMaquina)
+    fichasJugador, fichasMaquina, turno = datosArchivo(nombreExtension, colorJugador, colorMaquina)
 
     cantFichasJugadas = len(fichasJugador) + len(fichasMaquina)
 
-    print(f"------------ DIFICULTAD {dificultad}---------------")
+    print(f"\n------------ DIFICULTAD {dificultad}---------------\n")
     print("Color de jugador: ", colorJugador)
     print("Color de adversario: ", colorMaquina)
     print("Turno del color ", turno)
 
-    ultimasDosJugadas = []
+    ultimasDosJugadas = [(-1, -1), (-2, -2)]
 
     while partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasDosJugadas):
 
         if turno == colorJugador:
 
-            cantJugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina, colorJugador)
+            jugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina)
 
-            muestraTablero(fichasJugador, fichasMaquina)
+            muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
-            if cantJugadasPosibles != 0:
+            if jugadasPosibles == True:
                 
                 jugada = input("Ingrese una jugada: ")
 
                 while not jugadaPosible(jugada, fichasJugador, fichasMaquina):
-                    #escriba otra ficha.
-                    jugada = input("Ingrese una jugada: ")
+                    
+                    muestraTablero(fichasJugador, fichasMaquina, colorJugador)
+                    jugada = input("\nIngrese una jugada: ")
+                
+                jugadaFicha = transformaAFicha(jugada)
 
-                actualizaFichas(turno, jugada, fichasJugador, fichasMaquina)
+                actualizaFichasJugador(jugadaFicha, fichasJugador, fichasMaquina)
 
                 cantFichasJugadas += 1
             
@@ -47,8 +53,9 @@ def main(nombreArchivo, colorJugador, dificultad):
 
                 print("Usted no tenia jugadas posibles, por lo que su turno fue salteado automaticamente.")
 
-            ultimasDosJugadas[0] = jugada
+            ultimasDosJugadas[0] = jugadaFicha
 
+            muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
         else:
 
@@ -86,4 +93,4 @@ if __name__ == "__main__":
     
     else:
 
-        print("ERROR: Ha ingresado la cantidad incorrecta de argumentos. Finalizando programa...")
+        print("ERROR: La cantidad de argumentos de la funcion es incorrecto.")
