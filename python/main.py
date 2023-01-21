@@ -30,7 +30,7 @@ def main(nombreArchivo, colorJugador, dificultad):
 
         if turno == colorJugador:
 
-            jugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina)
+            jugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina, "jugador")
 
             muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
@@ -61,13 +61,13 @@ def main(nombreArchivo, colorJugador, dificultad):
 
             print("Turno de la maquina: ")
 
-            jugadasPosiblesMaquina = actualizaJugadasPosiblesMaquina(fichasJugador, fichasMaquina) # DICCIONARIO
+            jugadasPosiblesMaquina = actualizaJugadasPosiblesMaquina(fichasJugador, fichasMaquina, "maquina") # DICCIONARIO
 
             if jugadasPosiblesMaquina != set():
 
-                jugada = eligeFicha(jugadasPosiblesMaquina, dificultad)
+                jugadaFicha = eligeFicha(jugadasPosiblesMaquina, dificultad)
 
-                actualizaFichas(turno, jugada, fichasJugador, fichasMaquina)
+                actualizaFichasMaquina(jugadaFicha, fichasJugador, fichasMaquina)
 
                 cantFichasJugadas += 1
             
