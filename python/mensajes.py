@@ -2,7 +2,13 @@
 from jugadores import *
 from time import sleep
 
+
 def muestraTablero(fichasJugador, fichasMaquina, colorJugador):
+
+    # muestraTablero :: set((int, int)) set((int, int)) string -> None
+    # La funcion toma las fichas del jugador, las fichas de la maquina y el color
+    # del jugador, e imprime el tablero analizando casilla por casilla si le
+    # pertenece a uno u otro
 
     print("\n----- Tablero -----\n")
 
@@ -29,17 +35,29 @@ def muestraTablero(fichasJugador, fichasMaquina, colorJugador):
     print("\n----------------------------------------------\n")
 
 
-def mensajeFinal(condicion):
+def mensajeFinal(condicion, fichasJugador, fichasMaquina, colorJugador):
+
+    # mensajeFinal :: string -> None
+    # Dependiendo la condicion final, devuelve un mensaje indicando como termino la partida.
 
     if condicion == "doble salteo":
 
         print("La partida finalizo porque ambos jugadores saltaron de turno. No hay mas jugadas posibles.")
+        print("Cantidad de fichas del jugador: ", len(fichasJugador))
+        print("Cantidad de fichas de la maquina: ", len(fichasMaquina))
 
     else: 
         print("\nHa ganado: ", condicion)
+        print("Cantidad de fichas del jugador: ", len(fichasJugador))
+        print("Cantidad de fichas de la maquina: ", len(fichasMaquina))
+    
+    muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
 
 def mensajeError(error):
+
+    # mensajeError: string -> None
+    # Dependiendo del error cometido, devuelve un mensaje indicando dicho error.
 
     print("\n\n----------- ERROR -----------\n")
 

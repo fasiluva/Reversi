@@ -10,7 +10,7 @@ def main(nombreArchivo, colorJugador, dificultad):
     nombreExtension = "../archivosGenerados/" + nombreArchivo + '.txt'
 
     if not verificaArgumentos(nombreExtension, colorJugador, dificultad):
-        
+        # Si no verifican los datos ingresados, no inicia
         return
     
     colorMaquina = colorContrario(colorJugador)
@@ -19,22 +19,27 @@ def main(nombreArchivo, colorJugador, dificultad):
 
     cantFichasJugadas = len(fichasJugador) + len(fichasMaquina)
 
-    print(f"\n------------ DIFICULTAD {dificultad}---------------\n")
+    limpiaConsola() 
+
+    print(f"\n------------ DIFICULTAD {dificultad} ---------------\n")
     print("Color de jugador: ", colorJugador)
     print("Color de adversario: ", colorMaquina)
     print("Turno del color ", turno)
 
     ultimasDosJugadas = [(-1, -1), (-2, -2)]
+    # Nota: si las ultimas 2 jugadas son saltos de turno, la partida termina.
 
-    while partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasDosJugadas):
+    while not partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasDosJugadas, colorJugador):
 
-        if turno == colorJugador:
+        muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
-            jugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina, "jugador")
+        if turno == colorJugador: # Si es el turno del jugador
 
-            muestraTablero(fichasJugador, fichasMaquina, colorJugador)
+            jugadasPosibles = actualizaJugadasPosiblesJugador(fichasJugador, fichasMaquina)
+            # Nota: a diferencia de actualizaJugadasPosiblesMaquina, esta funcion devuelve True si existe
+            # al menos una jugada posible.
 
-            if jugadasPosibles == True:
+            if jugadasPosibles == True: # Si existen jugadas posibles a realizar 
                 
                 jugada = input("Ingrese una jugada: ")
 
@@ -43,47 +48,58 @@ def main(nombreArchivo, colorJugador, dificultad):
                     muestraTablero(fichasJugador, fichasMaquina, colorJugador)
                     jugada = input("\nIngrese una jugada: ")
                 
-                jugadaFicha = transformaAFicha(jugada)
+                limpiaConsola()
+
+                jugadaFicha = stringAFicha(jugada) # Transforma la jugada de string a tupla
 
                 actualizaFichasJugador(jugadaFicha, fichasJugador, fichasMaquina)
 
                 cantFichasJugadas += 1
             
-            else:
+            else: # Si la unica opcion es el salto de turno
 
+                jugadaFicha = (0, 0) # Salto de linea
                 print("Usted no tenia jugadas posibles, por lo que su turno fue salteado automaticamente.")
 
-            ultimasDosJugadas[0] = jugadaFicha
+            ultimasDosJugadas[0] = jugadaFicha # Aniade la ficha jugada o el salto de turno a la ultimas 2 jugadas hechas
 
-            muestraTablero(fichasJugador, fichasMaquina, colorJugador)
 
         else:
 
             print("Turno de la maquina: ")
 
-            jugadasPosiblesMaquina = actualizaJugadasPosiblesMaquina(fichasJugador, fichasMaquina, "maquina") # DICCIONARIO
+            sleep(1)  
 
-            if jugadasPosiblesMaquina != set():
+            jugadasPosiblesMaquina = actualizaJugadasPosiblesMaquina(fichasJugador, fichasMaquina) 
+            # Nota: a diferencia de actualizaJugadasPosiblesJugador, esta funcion devuelve todas las jugadas
+            # posibles para la maquina en un conjunto. Si no existe niguna jugada, devuelve un conjunto vacio.
 
-                jugadaFicha = eligeFicha(jugadasPosiblesMaquina, dificultad)
+            limpiaConsola()
+
+            if jugadasPosiblesMaquina != set(): # Si hay jugadas posibles
+
+                jugadaFicha = eligeFicha(jugadasPosiblesMaquina, dificultad, fichasJugador, fichasMaquina)
 
                 actualizaFichasMaquina(jugadaFicha, fichasJugador, fichasMaquina)
 
                 cantFichasJugadas += 1
-            
-            else:
+                
+                print("La maquina hizo la jugada", fichaAString(jugadaFicha))
 
+            else: # Si no existen jugadas posibles
+
+                jugadaFicha = (0, 0) # Salto de linea
                 print("La maquina no tiene jugadas posibles, por lo que ha salteado de turno.")
 
-            ultimasDosJugadas[1] = jugada
+            ultimasDosJugadas[1] = jugadaFicha # Aniade la ficha jugada o el salto de turno a la ultimas 2 jugadas hechas
 
 
-        turno = colorContrario(turno)
+        turno = colorContrario(turno) # Cambia el turno
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 4: # Si la cantidad de datos ingresados es correcta
 
         nombreArchivoJuego = sys.argv[1]
         colorJugador = sys.argv[2]

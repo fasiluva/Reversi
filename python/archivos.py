@@ -4,16 +4,25 @@ from mensajes import *
 
 def limpiaConsola():
 
-    if os.name == "posix":
+    # limpiaConsola :: None -> None
+    # La funcion cuando es llamada, limpia la consola analizando en que sistema operativo
+    # se esta ejecutando el programa. Funcion estetica. 
+
+    if os.name == "posix": # Linux
         os.system("clear")
     
-    elif os.name == "ce" or "nt" or "dos":
+    elif os.name == "ce" or "nt" or "dos": # Windows, MAC, etc
         os.system("cls")
     
-    else:
+    else: # Si no lo reconoce, no hace nada
         pass
 
+
 def verificaArgumentos(nombreArchivo, color, dificultad):
+
+    # verificaArgumentos :: string string string -> bool
+    # La funcion recibe los datos preliminares y chequea si estan bien ingresados
+    # Devuelve True si es correcto, False si no lo es.
 
     if archivoExiste(nombreArchivo) and dificultadCorrecta(dificultad) and colorCorrecto(color):
         return True
@@ -23,6 +32,10 @@ def verificaArgumentos(nombreArchivo, color, dificultad):
 
 
 def colorCorrecto(color):
+
+    # colorCorrecto :: string -> bool
+    # Chequea que el color con el que el jugador quiere jugar sea correcto, pudiendo ser
+    # solo 'B' o 'N'.
 
     if color != 'N' and color != 'B':
 
@@ -34,6 +47,10 @@ def colorCorrecto(color):
 
 def dificultadCorrecta(dificultad):
 
+    # dificultadCorrecta :: string -> bool
+    # Chequea que la dificultad con la que el jugador quiere jugar sea correcta, pudiendo ser
+    # solo '1' o '0'.
+
     if dificultad != '0' and dificultad != '1':
 
         print("El nivel de dificultad es invalido. No puede iniciar el programa. ")
@@ -41,7 +58,11 @@ def dificultadCorrecta(dificultad):
     
     return True
 
+
 def archivoExiste(nombreArchivo):
+
+    # archivoExiste :: string -> bool
+    # Chequea que el archivo con el que el jugador quiere iniciar fue enconcontrado.
 
     try:
         archivo = open(nombreArchivo)
