@@ -5,6 +5,7 @@ void muestraTablero(Jugador *, Jugador *);
 void escribeTablero(Jugador *, Jugador *, char);
 void mensajeFinal(Jugador *, Jugador *, int, char);
 
+
 void mensajeFinal(Jugador * jugador1, Jugador * jugador2, int cantFichasJugadas, char turno)
 {
     // mensajeFinal :: Jugador *, Jugador *, int, char -> None
@@ -54,6 +55,7 @@ void mensajeFinal(Jugador * jugador1, Jugador * jugador2, int cantFichasJugadas,
     printf("\n");
 }
 
+
 void escribeTablero(Jugador * jugador1, Jugador * jugador2, char turno)
 {
     // escribeTablero :: Jugador *, Jugador *, char -> None
@@ -96,6 +98,7 @@ void escribeTablero(Jugador * jugador1, Jugador * jugador2, char turno)
     fclose(archivo);
 
 }
+
 
 void muestraTablero(Jugador * jugador1, Jugador * jugador2)
 {

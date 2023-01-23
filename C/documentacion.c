@@ -1,8 +1,8 @@
 /*
 
-# En este archivo presentaremos el diseño de los datos y como los 
-# modelamos dentro del programa. También hablaremos sobre las decisiones
-# que tomamos en cuanto a el manejo de datos y  como enfocaremos la 
+# En este archivo presento el diseño de los datos y como lo
+# modelo dentro del programa. También hablare sobre las decisiones
+# que tome en cuanto a el manejo de datos y como enfoco la 
 # resolución del problema.
 # 
 # DISEÑO DE DATOS___________________________ 

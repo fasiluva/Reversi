@@ -5,6 +5,7 @@
 int colorValido(char);
 int mismosColores(char, char);
 
+
 typedef struct 
 {
     int x;
@@ -18,6 +19,7 @@ typedef struct
     Ficha * fichasJugadas;
 } Jugador;
 
+
 int colorValido (char color)
 {
     // colorValido: char -> int
@@ -26,6 +28,7 @@ int colorValido (char color)
 
     return (color == 'N' || color == 'B') ? 0 : 1;
 }
+
 
 int mismosColores(char color1, char color2)
 {

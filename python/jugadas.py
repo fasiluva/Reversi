@@ -1,7 +1,6 @@
 from random import randint, choice
-from mensajes import *
-from fichas import *
 from archivos import *
+from fichas import *
 
 
 def eligeFicha(jugadasPosibles, dificultad, fichasJugador, fichasMaquina):
@@ -11,6 +10,10 @@ def eligeFicha(jugadasPosibles, dificultad, fichasJugador, fichasMaquina):
     # la dificultad del juego y elige una ficha a realizar. Si la dificultad es 0, la elige 
     # aleatoriamente. Si la dificultad es 1, evalua la cantidad de cambios que realizan todas las fichas
     # y elige la que mas cambios haga (o una de la que mas cambios haga, si hay mas de una).
+
+    print("FICHAS POSIBLES: ", jugadasPosibles)
+    print("FICHAS JUGADOR: ", fichasJugador)
+    print("FICHAS MAQUINA: ", fichasMaquina)
 
     fichas = list(jugadasPosibles)
 
@@ -27,6 +30,8 @@ def eligeFicha(jugadasPosibles, dificultad, fichasJugador, fichasMaquina):
             cantVolteosFichas += [cantVolteadas(ficha, fichasJugador, fichasMaquina)]
             # Nota: con cada ficha que evalua de las jugadas posibles, añade la cantidad de fichas que cambia a una lista.
 
+        print("VOLTEOS DE LAS FICHAS: ", cantVolteosFichas)
+        print("FICHA ELEGIDA: ", fichas[cantVolteosFichas.index(max(cantVolteosFichas))])
         return fichas[cantVolteosFichas.index(max(cantVolteosFichas))]
 
 

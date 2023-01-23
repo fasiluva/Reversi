@@ -1,8 +1,6 @@
 #include <assert.h>
+#include "tablero.c"
 #include "archivos.c"
-#include "jugadores.c"
-#include "jugadas.c"
-#include "fichas.c"
 
 #define cantFichasPosibles 5
 
@@ -37,7 +35,8 @@ int main(int argc, char const *argv[])
 
     Ficha ficha1 = {3, 4};
     Ficha ficha2 = {6, 5};
-    Ficha fallo = {-1, -1};
+    Ficha falloFormato = {-1, -1};
+    Ficha falloRango = {-2, -2};
     
     assert(transformaFicha(jugada2).x == ficha1.x);
     assert(transformaFicha(jugada2).y == ficha1.y);
@@ -45,14 +44,14 @@ int main(int argc, char const *argv[])
     assert(transformaFicha(jugada1).x == ficha2.x);
     assert(transformaFicha(jugada1).y == ficha2.y);
 
-    assert(transformaFicha(jugada3).x == fallo.x);
-    assert(transformaFicha(jugada3).y == fallo.y);
+    assert(transformaFicha(jugada3).x == falloRango.x);
+    assert(transformaFicha(jugada3).y == falloRango.y);
     
-    assert(transformaFicha(jugada4).x == fallo.x);
-    assert(transformaFicha(jugada4).y == fallo.y);
+    assert(transformaFicha(jugada4).x == falloFormato.x);
+    assert(transformaFicha(jugada4).y == falloFormato.y);
     
-    assert(transformaFicha(jugada5).x == fallo.x);
-    assert(transformaFicha(jugada5).y == fallo.y);
+    assert(transformaFicha(jugada5).x == falloRango.x);
+    assert(transformaFicha(jugada5).y == falloRango.y);
 
     // =========================================================================== jugadores.c
     
@@ -82,6 +81,9 @@ int main(int argc, char const *argv[])
     Ficha ficha6 = {5, 3};
     Ficha ficha7 = {3, 3};
 
+    assert(cambiaTurno('B') == 'N');
+    assert(cambiaTurno('N') == 'B');
+
     assert(generaVertical(ficha5, jugador1, jugador2, jugador2->color) == 0);
     assert(generaVertical(ficha1, jugador1, jugador2, jugador2->color) == 1);
     assert(generaVertical(ficha6, jugador1, jugador2, jugador2->color) == 1);
@@ -91,7 +93,6 @@ int main(int argc, char const *argv[])
 
     assert(generaDiagonalSup(ficha7, jugador1, jugador2, jugador2->color) == 1);
     assert(generaDiagonalInf(ficha2, jugador1, jugador2, jugador1->color) == 1);
-    //! FICHAS DIAGONALES: PROBAR CON MAS FICHAS QUE SOLO LAS INICIALES.
 
     assert(generaCambios(jugador2->color, ficha5, jugador1, jugador2) == 0);
     assert(generaCambios(jugador2->color, ficha7, jugador1, jugador2) == 1);
@@ -106,8 +107,15 @@ int main(int argc, char const *argv[])
     
     Ficha ficha8 = {1,3};
 
-    assert(repetida(ficha1, jugadasPosibles, cantFichasPosibles) == 0);
-    assert(repetida(ficha8, jugadasPosibles, cantFichasPosibles) == 1);
+    assert(jugadaCorrecta(jugada1, jugador1, jugador2, 2, jugador1->color) == 1);
+    assert(jugadaCorrecta(jugada3, jugador1, jugador2, 4, jugador1->color) == 1);
+    assert(jugadaCorrecta(jugada5, jugador1, jugador2, 5, jugador2->color) == 1);
+
+    fichasIniciales(jugador1);
+    fichasIniciales(jugador2);
+
+    assert(actualizarJugadasPosibles('N', jugador1, jugador2) == 1);
+    assert(actualizarJugadasPosibles('B', jugador1, jugador2) == 1);
 
     return 0;
 }

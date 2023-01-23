@@ -1,6 +1,4 @@
-from archivos import *
-from mensajes import *
-from jugadores import *
+
 from jugadas import *
 import sys
 

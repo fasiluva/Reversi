@@ -17,9 +17,10 @@ void removerFicha(Ficha, Jugador *);
 void aniadirFicha(Ficha, Jugador *);
 void mensajeError(Ficha, char *, char, char *);
 
+
 void mensajeError(Ficha jugadaFicha, char * jugadaString, char turno, char * error)
 {
-    // mensajeError :: Ficha, char*, char, char * -> None
+    // mensajeError :: Ficha, char *, char, char * -> None
     // Dado una jugada hecha (en su formato Ficha y String), el turno, y el tipo de error, 
     // imprime por consola el error cometido por el jugador y en que ficha se cometio.
 
@@ -55,6 +56,7 @@ void mensajeError(Ficha jugadaFicha, char * jugadaString, char turno, char * err
 
 }
 
+
 char cambiaTurno(char turno)
 {
     // cambiaTurno :: char -> char
@@ -62,9 +64,10 @@ char cambiaTurno(char turno)
     return (turno == 'B') ? 'N' : 'B';
 }
 
+
 void aniadirFicha(Ficha casillaAniadir, Jugador * jugadorTurno)
 {
-    // aniadirFicha :: Ficha, Jugador* -> None
+    // aniadirFicha :: Ficha, Jugador * -> None
     // Recibe una ficha y el jugador de turno y añade dicha ficha a sus jugadas hechas,
     // aumenta la cantidad de fichas jugadas y expande el espacio del espacio de memoria que aloja
     // las jugadas. 
@@ -75,9 +78,10 @@ void aniadirFicha(Ficha casillaAniadir, Jugador * jugadorTurno)
 
 }
 
+
 void removerFicha(Ficha casillaCambiar, Jugador * jugadorCambiaFichas)
 {
-    // removerFicha :: Ficha, Jugador* -> None
+    // removerFicha :: Ficha, Jugador * -> None
     // Dada una ficha y el jugador que no es de turno, elimina dicha ficha de sus jugadas. Para ello,
     // busca dicha ficha entre sus jugadas y cuando la encuentra, sobreescribe las siguientes fichas
     // con la posicion siguiente a las mismas, de modo que su tamanio disminuye en 1, asi como sus
@@ -101,9 +105,10 @@ void removerFicha(Ficha casillaCambiar, Jugador * jugadorCambiaFichas)
 
 }
 
+
 int ocupadaJugador(Ficha casilla, Jugador * jugadorX)
 {
-    // ocupadaJugador :: Ficha, Jugador* -> int
+    // ocupadaJugador :: Ficha, Jugador * -> int
     // Dada una ficha y un jugador, chequea si la ficha esta dentro de las fichas 
     // jugadas por el jugador. En caso de estarlo, devuelve 1, sino un 0 es devuelto
 
@@ -112,9 +117,10 @@ int ocupadaJugador(Ficha casilla, Jugador * jugadorX)
 
 }
 
+
 void modificaDiagonalSup(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugador * jugadorTurno)
 {
-    // modificaDiagonalSup :: Ficha, Jugador*, Jugador* -> None 
+    // modificaDiagonalSup :: Ficha, Jugador *, Jugador * -> None 
     // Recibe una ficha, el jugador de turno y el jugador contrario y analiza si la ficha realiza
     // cambios en el tablero en la diagonal superior trazada desde dicha ficha. En caso de 
     // hacerlo, aniade las fichas al jugador de turno y las elimina del jugador contrario.
@@ -193,9 +199,10 @@ void modificaDiagonalSup(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugad
 
 }
 
+
 void modificaDiagonalInf(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugador * jugadorTurno)
 {
-    // modificaDiagonalSup :: Ficha, Jugador*, Jugador* -> None 
+    // modificaDiagonalSup :: Ficha, Jugador *, Jugador * -> None 
     // Recibe una ficha, el jugador de turno y el jugador contrario y analiza si la ficha realiza
     // cambios en el tablero en la diagonal inferior trazada desde dicha ficha. En caso de 
     // hacerlo, aniade las fichas al jugador de turno y las elimina del jugador contrario.
@@ -274,9 +281,10 @@ void modificaDiagonalInf(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugad
 
 }
 
+
 void modificaVertical (Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugador * jugadorTurno)
 {
-    // modificaDiagonalSup :: Ficha, Jugador*, Jugador* -> None 
+    // modificaDiagonalSup :: Ficha, Jugador *, Jugador * -> None 
     // Recibe una ficha, el jugador de turno y el jugador contrario y analiza si la ficha realiza
     // cambios en el tablero verticalmente. En caso de hacerlo, aniade las fichas al jugador de 
     // turno y las elimina del jugador contrario.
@@ -344,9 +352,10 @@ void modificaVertical (Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugador
 
 }
 
+
 void modificaHorizontal(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugador * jugadorTurno)
 {
-    // modificaDiagonalSup :: Ficha, Jugador*, Jugador* -> None 
+    // modificaDiagonalSup :: Ficha, Jugador *, Jugador * -> None 
     // Recibe una ficha, el jugador de turno y el jugador contrario y analiza si la ficha realiza
     // cambios en el tablero horizontalmente. En caso de hacerlo, aniade las fichas al jugador de 
     // turno y las elimina del jugador contrario.
@@ -410,6 +419,7 @@ void modificaHorizontal(Ficha jugadaHecha, Jugador * jugadorCambiaFichas, Jugado
 
 }
 
+
 void modificaFichas(Ficha jugada, Jugador * jugador1, Jugador * jugador2, char turno)
 {
     // modificaFichas :: Ficha, Jugador *, Jugador *, char -> None
@@ -438,11 +448,12 @@ void modificaFichas(Ficha jugada, Jugador * jugador1, Jugador * jugador2, char t
 
 }
 
+
 int jugadaCorrecta(char * jugada, Jugador * jugador1, Jugador * jugador2, int cantJugadasPosibles, char turno)
 {
 
-    // jugadaCorrecta :: char *, Jugador *, Jugador *, Ficha *, int, char -> int
-    // La funcion recibe la jugada en forma de string, los jugadores, las jugadas posibles y su cantidad, y el turno
+    // jugadaCorrecta :: char *, Jugador *, Jugador *, int, char -> int
+    // La funcion recibe la jugada en forma de string, los jugadores, las cantidad de jugadas posibles, y el turno
     // y en base a ello analiza si la jugada es correcta, siendo los errores posibles de la jugada: fuera de rango,
     // formato incorrecto, turno mal salteado, casilla ocupada y jugada no posible. En caso de uno de ellos, devuelve
     // 1. Si ningun error es cometido, devuelve 0.
@@ -490,6 +501,7 @@ int jugadaCorrecta(char * jugada, Jugador * jugador1, Jugador * jugador2, int ca
     
     return 0;
 }
+
 
 int actualizarJugadasPosibles(char turno, Jugador * jugador1, Jugador * jugador2)
 {
@@ -552,6 +564,7 @@ int actualizarJugadasPosibles(char turno, Jugador * jugador1, Jugador * jugador2
     return 0; // No hay jugadas posibles
 
 }
+
 
 int generaVertical(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, char turno)
 {
@@ -634,6 +647,7 @@ int generaVertical(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, 
     }
 }
 
+
 int generaHorizontal(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, char turno)
 {
     // generaHorizontal :: Ficha, Jugador *, Jugador *, char -> int
@@ -711,6 +725,7 @@ int generaHorizontal(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2
 
     return 1;
 }
+
 
 int generaDiagonalSup(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, char turno)
 {
@@ -795,6 +810,7 @@ int generaDiagonalSup(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador
     return 1;
 
 }
+
 
 int generaDiagonalInf(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2, char turno)
 {
@@ -882,6 +898,7 @@ int generaDiagonalInf(Ficha fichaTangente, Jugador * jugador1, Jugador * jugador
         return 1;
     }
 }
+
 
 int generaCambios(char turno, Ficha fichaTangente, Jugador * jugador1, Jugador * jugador2)
 {

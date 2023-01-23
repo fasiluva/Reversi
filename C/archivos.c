@@ -1,9 +1,10 @@
 #include<string.h>
 #include <stdio.h>
 
+
 FILE * reingresaArchivo(char * nombre) 
 {
-    // reingresaArchivo: pointer(char) -> pointer(FILE)
+    // reingresaArchivo: char * -> FILE *
     // 
     // La funcion recibe el puntero del argumento e intenta abrirlo como archivo. Si fue ingresado
     // incorrectamente, en el bloque while en el que se encuentra en main, devolvera NULL, por lo 

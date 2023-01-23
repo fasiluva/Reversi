@@ -8,9 +8,10 @@ void fichasIniciales(Jugador *);
 int charInt(char);
 Ficha transformaFicha(char*);
 
+
 void fichasIniciales(Jugador * jugador)
 {
-    // fichasIniciales :: Jugador* -> None
+    // fichasIniciales :: Jugador * -> None
     // La funcion recibe un jugador y añade a sus fichas jugadas las fichas iniciales, dependiendo 
     // de su color.
 
@@ -35,6 +36,7 @@ void fichasIniciales(Jugador * jugador)
 
 }
 
+
 int charInt(char caracter) 
 {
     // charInt: char -> int
@@ -45,9 +47,10 @@ int charInt(char caracter)
     return caracter - '0';
 }
 
+
 Ficha transformaFicha(char * jugada)
 {
-    // transformaFicha: string -> Ficha
+    // transformaFicha: char * -> Ficha
     // La funcion recibe un string y chequea si los formatos son correctos: El largo de la 
     // cadena es 3 (2 caracteres + espacio), el segundo caracter es un numero entre 1 y 8 y
     // que el primer caracter es una letra entre A y H. Si la jugada no cumple con lo previamente 
