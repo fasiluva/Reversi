@@ -100,6 +100,20 @@
 #   referencia a ninguna posición del tablero.
 #   
 #
+#   Importacion de archivos en el main:
+#
+#       jugadas.py
+#         |  random
+#         |  archivos.py
+#         |    |  mensajes.py
+#         |    |    |  jugadores.py
+#         |    |    |  time
+#         |    |  os
+#         |  fichas.py
+#       sys
+#
+#   (main importa jugadas y sys, jugadas importa rangom arhivos y fichas, y asi)
+#
 #  Tablero: 
 #
 # |    | A  | B  | C  | D  | E  | F  | G  | H  |
@@ -120,3 +134,9 @@
 # ----------------------------------------------
 # | 8  | 18 | 28 | 38 | 48 | 58 | 68 | 78 | 88 |
 # ----------------------------------------------
+#
+#
+#   INGRESO DE ARCHIVOS EN LA CONSOLA: 
+#   
+#       python/python3 main.py <archivoSinExtension> <color> <dificultad>
+#

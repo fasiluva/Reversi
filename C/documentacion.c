@@ -57,11 +57,8 @@
 #           # juego7.txt: Partida incompleta, por lo que no se puede determinar un ganador.
 #           # juego8.txt: Gana el jugador de las fichas negras porque el blanco se queda sin fichas en el tablero 
 #           # juego9.txt: Gana el jugador de las fichas blancas
-#           # juego10.txt: ?
-#           # juegoC1.txt: Partida de ejemplo no terminada para el programa de Python
-#           # juegoC2.txt: Partida de ejemplo no terminada para el programa de Python   
-#           # juegoContinuacion.txt: Archivo donde se escribe una partida no termina en el programa de C, para analizar con Python
-#
+#           # juego10.txt: Partida no terminada
+# 
 #
 #   # Inicio del programa:
 #                         Ejecutamos el programa por consola, indicando el archivo de jugadas a iniciar
@@ -112,6 +109,17 @@
 #   salto de turno, la asociaremos con la Ficha = {0, 0}, ya que estas coordenadas no hacen
 #   referencia a ninguna posición del tablero.
 #   
+# 
+#   Importacion de los archivos en main.c: 
+#
+#        tablero.c
+#         |   fichas.c
+#         |    |   jugadores.c
+#         |   jugadas.c
+#        archivos.c
+#       
+#   (main importa tablero y archivos, tablero importa fichas y jugadas, y asi).
+#
 
 Tablero: 
 
@@ -133,5 +141,10 @@ Tablero:
 ----------------------------------------------
 | 8  | 18 | 28 | 38 | 48 | 58 | 68 | 78 | 88 |
 ----------------------------------------------
+
+INGRESO DE ARCHIVOS EN LA CONSOLA:
+
+    main.exe/main.out  <../ArchivosGenerados/nombreArchivoConExtension>
+
 
 */
