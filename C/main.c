@@ -66,7 +66,7 @@ int main (int argc , char * argv [])
         // --------------------------------------------------------------------------- LINEA 3
 
         fgets(linea, 25, archivo); // COLOR INICIAL
-        // printf("Linea: %s", linea);
+        
         if (colorValido(linea[0]) == 1) 
         {
             printf("El color inicial es invalido. ");
