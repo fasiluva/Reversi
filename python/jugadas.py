@@ -547,7 +547,7 @@ def generaHorizontal(fichaVerifica, fichasJugador, fichasMaquina, turno):
 
 def partidaFinaliza(fichasJugador, fichasMaquina, cantFichasJugadas, ultimasJugadas, colorJugador):
 
-    # partidaFinaliza :: set((int, int)) set((int, int)) int list -> bool
+    # partidaFinaliza :: set((int, int)) set((int, int)) int list((int, int)) -> bool
     # Analiza si la partida debe finalizar, analizando si los jugadores han hecho un 
     # doble salteo, si se ingresaron todas las fichas del tablero o si un jugador se quedo
     # sin fichas. Si no se cumple ninguna de dichas condiciones, devuelve False
