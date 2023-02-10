@@ -81,17 +81,17 @@ int main (int argc , char * argv [])
 
         int cantJugadasPosibles;
 
-        fichasIniciales(jugador1);
-        fichasIniciales(jugador2);
+        fichasIniciales(jugador1); // Posiciona las fichas iniciales del jugador 1
+        fichasIniciales(jugador2); // Posiciona las fichas iniciales del jugador 2
 
         printf("============================ INICIO DEL JUEGO =================================\n");
 
         cantJugadasPosibles = actualizarJugadasPosibles(turno, jugador1, jugador2);         
 
-        fgets(linea, 25, archivo); // PRIMERA JUGADA
-        int cantFichasJugadas = 4;
+        fgets(linea, 25, archivo); // Lee la primera jugada
+        int cantFichasJugadas = 4; // Cantidad inicial de fichas
         
-        char salida = 'F';
+        char salida = 'F'; 
 
         while (salida != 'T' && cantFichasJugadas < 64 && jugadaCorrecta(linea, jugador1, jugador2, cantJugadasPosibles, turno) == 0)
         {
@@ -117,6 +117,7 @@ int main (int argc , char * argv [])
 
         muestraTablero(jugador1, jugador2);
 
+        // Liberado de la memoria
         free(jugador1->fichasJugadas);
         free(jugador2->fichasJugadas);
         free(jugador1);

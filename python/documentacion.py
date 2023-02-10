@@ -1,8 +1,13 @@
-# En este archivo presentaremos el diseño de los datos y como los 
-# modelamos dentro del programa de Python. También hablare sobre las decisiones
-# que tome en cuanto a el manejo de datos y  como enfoco la 
-# resolución del problema.
 # 
+#	En este archivo presento el diseño de los datos y como los 
+# 	modelo dentro del programa de Python. También hablare sobre las decisiones
+# 	que tome en cuanto a el manejo de datos y como enfoco la resolución del problema.
+# 
+#	INGRESO DE ARCHIVOS EN LA CONSOLA:
+#
+#   python3 main.py archivo.txt colorJugador dificultad
+#
+#
 # DISEÑO DE DATOS___________________________ 
 # 
 #   # Tablero:
@@ -33,13 +38,13 @@
 #
 # PLANTEAMIENTO DE RESOLUCIÓN_______________
 # 
-#   # División en archivos:
+#   # DIVISION DE ARCHIVOS:
 #                          Dividi la totalidad del programa en varios 
 #   archivos para trabajar de manera más cómoda y ordenada. Los distinos 
 #   archivos son:
 #
 #       # documentacion.py
-#       # main.py - Archivo de juego donde agrupamos todas las funciones.
+#       # main.py - Archivo de juego donde agrupa todas las funciones.
 #       # tests.py - Archivo de tests de las funciones.
 #       # archivos.py - Archivo que contiene funciones que se encargan de la lectura del archivo.
 #       # mensajes.py - Archivo encargado de mostrar los mensajes de errores y finales por consola.
@@ -59,12 +64,12 @@
 #                         Ejecutamos el programa por consola, indicando el archivo de jugadas, el color y la dificultad.
 #   En caso de que uno de dichos datos no sea valido, no inicia el programa. Luego, abre el archivo una unica vez y extrae
 #   las jugadas del jugador y de la maquina, almacenandolo en conjuntos diferentes de fichas, junto con el turno que inicia.
-#   EL bucle que da funcionamiento al juego funciona de la siguiente manera: 
+#   El bucle que da funcionamiento al juego funciona de la siguiente manera: 
 #
 #       #? Verifica que:
-#           #? No se hayan ingresado todas las fichas. Sino, analiza quien gano.
+#           #? No se hayan ingresado todas las fichas. Sino, termina la partida.
 #           #? Los jugadores no hayan saltado su turno. Sino, termina la partida.
-#           #? Los jugadores se hayan quedado sin fichas. Sino, analiza quien gano.
+#           #? Los jugadores se hayan quedado sin fichas. Sino, termina la partida.
 #       #? Muestra el tablero
 #       #* Si es el turno del jugador:
 #           #? Analiza si existen jugadas posibles (min 1).
@@ -116,6 +121,10 @@
 #
 #  Tablero: 
 #
+#	. El primer numero representa la columna, y el segundo la fila. La primera columna y fila
+#     son indicativos de las filas y columnas, respectivamente. 
+#
+#
 # |    | A  | B  | C  | D  | E  | F  | G  | H  |
 # ----------------------------------------------
 # | 1  | 11 | 21 | 31 | 41 | 51 | 61 | 71 | 81 |
@@ -136,7 +145,4 @@
 # ----------------------------------------------
 #
 #
-#   INGRESO DE ARCHIVOS EN LA CONSOLA: 
-#   
-#       python/python3 main.py <archivoSinExtension> <color> <dificultad>
 #
